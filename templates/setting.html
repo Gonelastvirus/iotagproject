@@ -1,0 +1,32 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated %}
+<main class="mt-5 pt-3">
+    <div class="container">
+        <div class="row">
+            <form action="{% url 'settings' %}" method="post">
+                {% csrf_token %}
+                <div class="form-group">
+                  <label for="username">Username:</label>
+                  <input type="text" id="idusername" name="username" value="{{user.username}}"  />
+                </div>
+                <div class="form-group">
+                  <label for="email">Email:</label>
+                  <input type="email" id="idemail" name="email" value="{{user.email}}"  />
+                  <a id="editEmail" class="edit-icon"><i class="fa fa-edit"></i></a>
+                </div>
+                <div class="form-group">
+                  <label for="token">Token:</label>
+                  <input type="text" id="idtoken" name="token" value="{{user.token}}"  />
+                  <a id="editToken" class="edit-icon"><i class="fa fa-edit"></i></a>
+                </div>
+                <div class="form-group justify-content-center" id="butt">
+                    <input type="submit" class="btn btn-success btn-block" name="" value="Update">
+                </div>
+              </form>
+          </div>
+        </div>       
+  </main>
+  {% endif %}
+{% endblock %}  

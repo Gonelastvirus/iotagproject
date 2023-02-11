@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<main class="mt-5 pt-4" >
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-md-lg-7 mb-3 ">
+              <div class="card custom-rounded-card h-100">
+                    <div class="card-header fw-bold text-center">
+                        <h2>Display data</h2>
+
+                        <div>
+                        <a href="?interval=1" class="lastact">1 min&nbsp;</a>
+                        <a href="?interval=5" class="lastact">5 min&nbsp;</a>
+                        <a href="?interval=15" class="lastact">15 min&nbsp;</a>
+                        </div>
+                    </div>
+
+                        {% if data %}
+                        <div class="table-responsive">
+                        <table class="table">
+                            <thead class="thead-fixed">
+                            <tr>
+                                <th>User ID</th>
+                                <th>Value</th>
+                                <th>Timestamp</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            {% for item in data %}
+                            <tr>
+                                <td>{{ item.user_id }}</td>
+                                <td>{{ item.sensor_value }}</td>
+                                <td>{{ item.timestamp }}</td>
+                            </tr>
+                            {% endfor %}
+                            </tbody>
+                        </table>
+                        </div>
+                        {% else %}
+                        <p>No data to display</p>
+                        {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</main>
+{% endblock%}

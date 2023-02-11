@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+{% if user.is_authenticated %}
+<main class="mt-5 pt-5">
+  <div class="container-fluid">
+        <div class="col-md-6 mb-3">
+        <div class="card custom-rounded-card mb-4">
+        <div class="card-header text-center fw-bold">
+          <strong><i class="bi bi-arrow-up-circle-fill text-success"></strong></i>&nbsp;Soil Temperature for planting
+        </div>
+        <div class="row">
+          <div class="col-6 text-right">
+              <p class="card-text fw-bold text-success ml-4">&nbsp; &nbsp;&nbsp;&nbsp;Plant🌱</p>
+              {% for vegetable in vegetables %}
+              <p class="card-text fw-bold">&nbsp; &nbsp;&nbsp;{{ vegetable.tarkari }}</p>
+              {% endfor %}
+          </div>
+          <div class="col-6 text-left">
+            <p class="card-text fw-bold text-right">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp; &nbsp;Temp🌡</p>
+            {% for vegetable in vegetables %}
+            <p class="card-text fw-bold">&nbsp; &nbsp;&nbsp; &nbsp;{{ vegetable.temperature }}</p>
+            {% endfor %}
+          </div>
+      </div>
+      </div>
+      </div>
+  </div>
+</main>
+{% endif %}
+{% endblock %} 

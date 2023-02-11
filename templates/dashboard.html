@@ -1,0 +1,141 @@
+{% extends "base.html" %}
+{% load static %}
+{% block content %}
+<!--Offcanvas End--> 
+<main class="mt-5 pt-4" >
+  <div class="container-fluid">
+    <div class="row">
+      <!--Creating Charts-->
+      <div class="row">
+        <div class="col-md-6 mb-3 ">
+          <div class="card custom-rounded-card h-100">
+            <div class="card-header fw-bold text-center">
+              <strong>Soil Moisture💧</strong> 
+            </div>
+            <div class="card-body d-flex">
+              <canvas id="myChart"></canvas>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card custom-rounded-card h-100">
+            <div class="card-header fw-bold text-center">
+              <strong>IOT Sensor </strong>
+            </div>
+            <div id="progress_chart">
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card custom-rounded-card mb-4 h-70">
+            <div class="card-header fw-bold text-center">
+              <strong >User Details</strong> 
+            </div>
+            {% if user.is_authenticated %}
+            <p class="fw-light">
+              <b>Name:</b>&nbsp;<span class="d-inline fw-bold ">SM-328</span><br>
+              <b>Sensor ID:</b>&nbsp;<span class="d-inline fw-bold text-center">{{user.token}}</span><br>
+              <b>Customer:</b>&nbsp;<span class="d-inline fw-bold text-center">{{user.username}}</span>
+              <b>Email:</b>&nbsp;<span class="d-inline fw-bold text-center">{{user.email}}</span>
+            </p>
+            {% else %}
+            <p class="fw-light">
+              Name: &nbsp;<span class="d-inline fw-bold ">SM328</span><br>
+              Sensor ID: &nbsp;<span class="d-inline fw-bold text-center">XXXXXX</span><br>
+              Customer: &nbsp;<span class="d-inline fw-bold text-center">XXXXXX</span>
+            {% endif %}
+          </div>
+          <div class="card custom-rounded-card mb-4 h-30">
+            <div class="card-header text-center fw-bold">
+              <strong><i class="bi bi-arrow-up-circle-fill text-success"></strong></i>&nbsp;Week-To-Date
+            </div>
+            <div class="row">
+              <div class="col-6 text-right">
+                  <p class="card-text fw-bold text-success ml-3">&nbsp; &nbsp;Threshold</p>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;<strong id="doggy"></strong>%</p>
+              </div>
+              <div class="col-6 text-left">
+                <p class="card-text fw-bold text-right">&nbsp; &nbsp;Actual</p>
+                <p class="card-text fw-bold">&nbsp; &nbsp;&nbsp; &nbsp;<strong id="sex"></strong></p>
+              </div>
+          </div>
+          </div>
+
+          <div class="card custom-rounded-card mb-4 h-30">
+            <div class="card-header text-center fw-bold text-danger">
+              <strong>&nbsp;Alert</strong>
+            </div>
+            <div class="row">
+              <div class="col-6 text-right">
+                  <p class="card-text fw-bold ml-3">&nbsp; &nbsp;Temp</p>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;&nbsp; &nbsp;&nbsp;<strong id="tempalt"></strong></p>
+              </div>
+              <div class="col-6 text-left">
+                <p class="card-text fw-bold text-right">&nbsp; &nbsp;Moisture</p>
+                <p class="card-text fw-bold">&nbsp; &nbsp;&nbsp; &nbsp;<strong id="moisalt"></strong></p>
+              </div>
+          </div>
+          </div>
+
+        </div>
+      </div>
+      <div class="row ">
+        <div class="col-md-6 mb-2">
+          <div class="card custom-rounded-card h-100">
+            <div class="card-header fw-bold text-center">
+              <strong>Temperature🌡</strong>
+            </div>
+            <div class="card-body d-flex justify-content-center">
+              <div id="myDiv"><!-- Plotly chart will be drawn inside this DIV --></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-3 mb-3">
+          <div class="card custom-rounded-card h-100">
+            <div class="card-header fw-bold text-center">
+              <strong >Sensors Details</strong> 
+            </div>
+            <div class="row">
+              <div class="col-6 text-right">
+                  <ul class="card-text fw-bold">&nbsp; &nbsp;Temp</ul>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;Node 1:&nbsp;<span class="d-inline fw-bold" id="node1"></span></p>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;Node 2:&nbsp;<span class="d-inline fw-bold" id="node2"></span></p>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;Node 3:&nbsp;<span class="d-inline fw-bold" id="node3"></span></p>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;Node 4:&nbsp;<span class="d-inline fw-bold" id="node4"></span></p>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;Node 5:&nbsp;<span class="d-inline fw-bold" id="node5"></span></p>
+                </div>
+              <div class="col-6 text-left">
+                <ul class="card-text fw-bold">&nbsp; &nbsp;Time</ul>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;<strong id="node1time"></strong></p>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;<strong id="node2time"></strong></p>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;<strong id="node3time"></strong></p>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;<strong id="node4time"></strong></p>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;<strong id="node5time"></strong></p>
+              </div>
+          </div>
+          </div>
+          </div>
+          <!-- Sensor status -->
+        <div class="col-md-3 mb-3">
+          <div class="card custom-rounded-card mb-4 h-70">
+            <div class="card-header fw-bold text-center">
+              <strong >Active Status Sensor</strong> 
+            </div>
+            <div class="row">
+              <div class="col-6 text-right">
+                  <p class="card-text fw-bold">&nbsp; &nbsp;Node 1:&nbsp;<span class="d-inline fw-bold" id="nodes1"></span></p>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;Node 2:&nbsp;<span class="d-inline fw-bold" id="nodes2"></span></p>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;Node 3:&nbsp;<span class="d-inline fw-bold" id="nodes3"></span></p>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;Node 4:&nbsp;<span class="d-inline fw-bold" id="nodes4"></span></p>
+                  <p class="card-text fw-bold">&nbsp; &nbsp;Node 5:&nbsp;<span class="d-inline fw-bold" id="nodes5"></span></p>
+                </div>
+            </div>
+          </div>
+          <!-- end here sensor staus-->
+      </div>
+    </div>
+  </div>
+</main>
+{% endblock %}   
+  
+ 
