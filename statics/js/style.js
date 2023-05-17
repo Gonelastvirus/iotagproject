@@ -10,17 +10,20 @@ if (window.location.pathname === '/dashboard/') {
   };
   socket.onmessage = function(e){
     console.log(e.data);
-    let threshold = ((800 / 1024) * 100).toFixed(2);
+    let threshold = 70;
     document.getElementById("doggy").innerHTML =threshold;
     var recData=JSON.parse(e.data); //parse json data
     var x=Number(recData.node)
     if(x){
       document.getElementById("nodes"+recData.node).innerHTML ='<i class="fas fa-circle text-success"></i>';
     }
+    else{
+      document.getElementById("nodes"+recData.node).innerHTML ='<i class="fas fa-circle text-danger"></i>';
+    }
     var temp=Number(recData.temp)
       document.getElementById("sex").innerHTML =recData.value;
       document.getElementById("node"+recData.node+"time").innerHTML =recData.time;
-      if (recData.value>threshold){
+      if (recData.value<threshold){
         document.getElementById("moisalt").innerHTML ='<i class="bi bi-arrow-down-circle-fill text-danger"></i>'; 
       }
       else{
@@ -39,7 +42,7 @@ if (window.location.pathname === '/dashboard/') {
       dataObjNew.push(recData.value);//push receive value
       dataObj['data']['datasets'][x-1]['data']=dataObjNew;// update js code entry with rec data object
       window.myLine.update();//update graph without reloading
-      let percentage = ((recData.value / 1024) * 100).toFixed(2);
+      let percentage = recData.value;
       progresschart.updateSeries([percentage]); 
       tempchart.updateSeries([temp]);   
 };
